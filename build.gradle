@@ -1,17 +1,47 @@
 plugins {
+    id 'com.gradle.plugin-publish' version '0.16.0'
+    id 'java-gradle-plugin'
     id 'groovy'
     id 'java'
 }
 
-group 'org.example'
+group 'io.eldridge'
 version '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
 }
+configurations.all {
+    resolutionStrategy {
+        force 'org.codehaus.groovy:groovy-all:3.0.7'
+    }
+}
+
+gradlePlugin {
+    plugins {
+        gradleOperationsPlugin {
+            id = 'io.eldridge.gradleoperations'
+            implementationClass = 'io.eldridge.plugin.GradleOperationsPlugin'
+        }
+    }
+}
+
+pluginBundle {
+    website = 'https://github.com/SilverLiivamagi/gradle-operations'
+    vcsUrl = 'https://github.com/SilverLiivamagi/gradle-operations'
+    description = 'Gradle Operations'
+
+    plugins {
+        greetingsPlugin {
+            displayName = 'Gradle Operations plugin'
+        }
+    }
+}
 
 dependencies {
-    implementation 'org.codehaus.groovy:groovy-all:3.0.5'
+    implementation gradleApi()
+    implementation localGroovy()
+    implementation 'org.codehaus.groovy:groovy-all:3.0.7'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
 }
